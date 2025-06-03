@@ -14,6 +14,7 @@ interface AppProps {
 }
 
 const STORAGE_KEY = 'progress-tracker-data';
+const TITLE_STORAGE_KEY = 'progress-tracker-title';
 
 const defaultClients: Client[] = [
   { id: '1', name: 'Acme Corp Website', progress: 0, notes: '' },
@@ -37,10 +38,50 @@ function App({ title = 'Your Project Here' }: AppProps) {
     return savedData ? JSON.parse(savedData) : defaultClients;
   });
 
+  const [currentTitle, setCurrentTitle] = useState(() => {
+    const savedTitle = localStorage.getItem(TITLE_STORAGE_KEY);
+    return savedTitle || title;
+  });
+
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(currentTitle);
+
   // Save to localStorage whenever clients data changes
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
   }, [clients]);
+
+  // Save title to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(TITLE_STORAGE_KEY, currentTitle);
+  }, [currentTitle]);
+
+  const handleTitleClick = () => {
+    setIsEditingTitle(true);
+    setEditedTitle(currentTitle);
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const handleTitleSubmit = () => {
+    if (editedTitle.trim()) {
+      setCurrentTitle(editedTitle);
+    } else {
+      setEditedTitle(currentTitle);
+    }
+    setIsEditingTitle(false);
+  };
+
+  const handleTitleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleTitleSubmit();
+    } else if (e.key === 'Escape') {
+      setEditedTitle(currentTitle);
+      setIsEditingTitle(false);
+    }
+  };
 
   const handleProgressChange = (clientId: string, progress: number) => {
     setClients(clients.map(client => 
@@ -62,7 +103,23 @@ function App({ title = 'Your Project Here' }: AppProps) {
 
   return (
     <div className="app">
-      <h1>{title}</h1>
+      <div className="title-container">
+        {isEditingTitle ? (
+          <input
+            type="text"
+            value={editedTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleSubmit}
+            onKeyDown={handleTitleKeyPress}
+            className="title-input"
+            autoFocus
+          />
+        ) : (
+          <h1 onClick={handleTitleClick} className="editable-title">
+            {currentTitle}
+          </h1>
+        )}
+      </div>
       <div className="sliders-container">
         {clients.map(client => (
           <ProgressSlider
