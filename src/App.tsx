@@ -9,6 +9,10 @@ interface Client {
   notes: string;
 }
 
+interface AppProps {
+  title?: string;
+}
+
 const STORAGE_KEY = 'progress-tracker-data';
 
 const defaultClients: Client[] = [
@@ -26,7 +30,7 @@ const defaultClients: Client[] = [
   { id: '12', name: 'EventManager Suite', progress: 0, notes: '' },
 ];
 
-function App() {
+function App({ title = 'Your Project Here' }: AppProps) {
   const [clients, setClients] = useState<Client[]>(() => {
     // Load data from localStorage on initial render
     const savedData = localStorage.getItem(STORAGE_KEY);
@@ -58,7 +62,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Soundbetter Progress</h1>
+      <h1>{title}</h1>
       <div className="sliders-container">
         {clients.map(client => (
           <ProgressSlider

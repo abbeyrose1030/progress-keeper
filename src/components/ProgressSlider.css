@@ -16,7 +16,7 @@
 }
 
 .client-name-container {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .client-name {
@@ -24,11 +24,12 @@
   font-weight: 600;
   color: #5a67d8;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 20px;
   transition: all 0.2s ease;
   background: #f8f9ff;
   display: inline-block;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .client-name:hover {
@@ -41,7 +42,7 @@
   font-weight: 600;
   color: #5a67d8;
   width: 100%;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border: 2px solid #c3dafe;
   border-radius: 20px;
   outline: none;
@@ -56,28 +57,30 @@
 
 .progress-slider {
   position: relative;
-  height: 16px;
+  height: 24px;
   background: #f0f4ff;
   border-radius: 20px;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 12px;
   border: 2px solid #e0e7ff;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .progress-fill {
   position: absolute;
   height: 100%;
   transition: all 0.3s ease;
-  left: 10px;
-  right: 10px;
-  width: calc(100% - 20px);
+  left: 12px;
+  right: 12px;
+  width: calc(100% - 24px);
   border-radius: 20px;
 }
 
 .progress-handle {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   background: white;
   border: 3px solid #5a67d8;
   border-radius: 50%;
@@ -87,6 +90,7 @@
   box-shadow: 0 2px 8px rgba(90, 103, 216, 0.2);
   z-index: 1;
   transition: all 0.2s ease;
+  touch-action: none;
 }
 
 .progress-handle:hover {
@@ -101,22 +105,22 @@
 
 .progress-value {
   text-align: right;
-  margin-top: 4px;
-  font-size: 0.8rem;
+  margin-top: 8px;
+  font-size: 0.9rem;
   color: #5a67d8;
   font-weight: 500;
 }
 
 .notes-toggle {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border: none;
   background: #f8f9ff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 8px auto;
+  margin: 12px auto;
   color: #5a67d8;
   font-size: 14px;
   transition: all 0.3s ease;
@@ -125,14 +129,15 @@
   border: 2px solid #e0e7ff;
   position: relative;
   z-index: 2;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .arrow-icon {
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid #5a67d8;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #5a67d8;
   transition: transform 0.3s ease;
 }
 
@@ -150,7 +155,7 @@
 }
 
 .notes-container {
-  margin-top: 12px;
+  margin-top: 16px;
   animation: slideDown 0.3s ease-out;
   position: relative;
   z-index: 1;
@@ -158,13 +163,13 @@
 
 .notes-textarea {
   width: 100%;
-  min-height: 80px;
-  padding: 12px;
+  min-height: 100px;
+  padding: 16px;
   border: 2px solid #e0e7ff;
   border-radius: 16px;
   resize: vertical;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1.5;
   color: #4a5568;
   background-color: #f8f9ff;
@@ -186,5 +191,44 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .progress-slider-container {
+    padding: 20px;
+    margin: 12px 0;
+  }
+
+  .client-name {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+
+  .progress-slider {
+    height: 32px;
+  }
+
+  .progress-handle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .progress-value {
+    font-size: 1rem;
+    margin-top: 12px;
+  }
+
+  .notes-toggle {
+    width: 44px;
+    height: 44px;
+    margin: 16px auto;
+  }
+
+  .notes-textarea {
+    min-height: 120px;
+    font-size: 1.1rem;
+    padding: 20px;
   }
 } 

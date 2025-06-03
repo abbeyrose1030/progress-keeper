@@ -25,25 +25,33 @@ const ProgressSlider: React.FC<ProgressSliderProps> = ({
   const [notes, setNotes] = useState(initialNotes);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
     updateProgress(e);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (isDragging) {
       updateProgress(e);
     }
   };
 
-  const handleMouseUp = () => {
+  const handleEnd = () => {
     setIsDragging(false);
   };
 
-  const updateProgress = (e: React.MouseEvent) => {
+  const updateProgress = (e: React.MouseEvent | React.TouchEvent) => {
     const slider = e.currentTarget;
     const rect = slider.getBoundingClientRect();
-    const x = e.clientX - rect.left;
+    let clientX: number;
+
+    if ('touches' in e) {
+      clientX = e.touches[0].clientX;
+    } else {
+      clientX = e.clientX;
+    }
+
+    const x = clientX - rect.left;
     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     setProgress(percentage);
     onProgressChange?.(percentage);
@@ -116,10 +124,13 @@ const ProgressSlider: React.FC<ProgressSliderProps> = ({
       </div>
       <div
         className="progress-slider"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseDown={handleStart}
+        onMouseMove={handleMove}
+        onMouseUp={handleEnd}
+        onMouseLeave={handleEnd}
+        onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
       >
         <div
           className="progress-fill"
